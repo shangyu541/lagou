@@ -1,0 +1,36 @@
+server:
+  port: 9002
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    ip-address: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+spring:
+  application:
+    name: lagou-cloud-gateway
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+  cloud:
+    gateway:
+#      \u7F51\u5173\u8DEF\u7531\uFF0C\u8DEF\u7531\u53EF\u4EE5\u53C8\u591A\u4E2A
+      routes:
+#        \u81EA\u5B9A\u4E49\u7684\u8DEF\u7531id\uFF0C\u4FDD\u6301\u552F\u4E00
+        - id: service-autodeliver-router
+#          \u76EE\u6807\u670D\u52A1\u5730\u5740\uFF0C\u81EA\u52A8\u6295\u9012\u5FAE\u670D\u52A1\uFF08\u90E8\u7F72\u591A\u5B9E\u4F8B\uFF09 \u52A8\u6001\u8DEF\u7531\uFF1Auri\u914D\u7F6E\u7684\u5E94\u8BE5\u662F\u4E00\u4E2A\u670D\u52A1\u540D\u79F0\uFF0C\u800C\u4E0D\u5E94\u8BE5\u662F\u4E00\u4E2A\u5177\u4F53\u7684\u670D\u52A1\u5B9E\u4F8B\u7684\u5730\u5740
+#          uri \u4EE5lb://\u5F00\u5934 (lb\u4EE3\u8868\u4ECE\u6CE8\u518C\u4E2D\u5FC3\u83B7\u53D6\u670D\u52A1)
+          uri: lb://lagou-service-autodeliver
+#          gateway\u7F51\u5173\u4ECE\u670D\u52A1\u6CE8\u518C\u4E2D\u4FE1\u83B7\u53D6\u5B9E\u4F8B\u4FE1\u606F\u7136\u540E\u8D1F\u8F7D\u540E\u8DEF\u7531
+          predicates:
+#            \u65AD\u8A00\uFF1A\u8DEF\u7531\u6761\u4EF6\uFF0Cpredicate \u63A5\u53D7\u4E00\u4E2A\u8F93\u5165\u53C2\u6570\uFF0C\u8FD4\u56DE\u4E00\u4E2A\u5E03\u5C14\u503C\u7ED3\u679C\uFF0C\u8BE5\u63A5\u53E3\u5305\u542B\u591A\u79CD\u9ED8\u8BA4\u65B9\u6CD5\u6765\u5C06predicate\u7EC4\u5408\u6210\u5176\u4ED6\u590D\u6742\u7684\u903B\u8F91\uFF08\u6BD4\u5982\uFF1A\u4E0E\uFF0C\u6216\uFF0C\u975E\uFF09
+            - Path=/autodeliver/**
+        - id: service-resume-router
+          uri: http://127.0.0.1:8090
+          predicates:
+            - Path=/resume/**
+          filters:
+            - StripPrefix=1

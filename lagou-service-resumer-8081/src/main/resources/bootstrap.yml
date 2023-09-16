@@ -1,0 +1,40 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: lagou-service-resume
+  datasource:
+    url: jdbc:mysql://localhost:3306/lagou-springcloud?useUnicode=true&characterEncoding=utf8
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: shangyu
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      naming:
+        #        避免将驼峰命名转换为下划线命名
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  cloud:
+    config:
+      name: lagou-service-resume
+      profile: dev
+      label: master
+      uri: http://127.0.0.1:9006
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    #    使用ip进行注册，否则会使用主机名注册
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+    metadata-map:
+      #    自定义元数据
+      cluster: 11
+      region: cc

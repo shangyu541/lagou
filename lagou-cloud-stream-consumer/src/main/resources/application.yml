@@ -1,0 +1,23 @@
+server:
+  port: 9091
+spring:
+  application:
+    name: lagou-cloud-stream-consumer
+  cloud:
+    stream:
+      binders:
+        lagouRabbitBinder:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password: guest
+      bindings:
+        input:
+          destination: lagouExchange
+          content-type: text/plain
+          binder: lagouRabbitBinder
+          group: lagou001

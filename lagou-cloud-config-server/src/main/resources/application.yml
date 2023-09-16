@@ -1,0 +1,35 @@
+server:
+  port: 9006
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+spring:
+  application:
+    name: lagou-service-autodeliver
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/alashang/lagou-config-repo.git
+          username: 15801401268
+          password: 123456789.a
+          search-paths:
+            - lagou-config-repo
+      label: master
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

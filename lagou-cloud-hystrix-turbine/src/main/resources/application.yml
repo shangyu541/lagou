@@ -1,0 +1,18 @@
+server:
+  port: 9001
+spring:
+  application:
+    name: lagou-cloud-htstrix-turbine
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}:@project.version@
+    prefer-ip-address: true
+turbine:
+  #  \u914D\u7F6E\u9700\u8981\u805A\u5408\u7684\u670D\u52A1\u660E\u957F\u57CE\uFF0C\u6BD4\u5982\u8FD9\u91CC\u805A\u5408\u81EA\u52A8\u6295\u9012\u670D\u52A1\u7684hystrix\u76D1\u63A7\u6570\u636E
+  #  \u5982\u679C\u8981\u805A\u5408\u591A\u4E2A\u5FAE\u670D\u52A1\u7684\u76D1\u63A7\u6570\u636E\uFF0C\u90A3\u4E48\u53EF\u4EE5\u4F7F\u7528\u82F1\u6587\u9017\u53F7\u62FC\u63A5
+  app-config: lagou-service-autodeliver
+  #  \u96C6\u7FA4\u9ED8\u8BA4\u540D\u79F0
+  cluster-name-expression: "'default'"

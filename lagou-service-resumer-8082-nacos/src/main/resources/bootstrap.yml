@@ -1,0 +1,42 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: lagou-service-resume-nacos
+  datasource:
+    url: jdbc:mysql://localhost:3306/lagou-springcloud?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: shangyu
+  jpa:
+    database: mysql
+    show-sql: true
+    hibernate:
+      naming:
+        #        \u907F\u514D\u5C06\u9A7C\u5CF0\u547D\u540D\u8F6C\u6362\u4E3A\u4E0B\u5212\u7EBF\u547D\u540D
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  cloud:
+    nacos:
+      discovery:
+        # \u96C6\u7FA4\u4E2D\u5404\u8282\u70B9\u4FE1\u606F\u90FD\u914D\u7F6E\u5728\u8FD9\u91CC\uFF08\u57DF\u540D-VIP-\u7ED1\u5B9A\u6620\u5C04\u5230\u5404\u4E2A\u5B9E\u4F8B\u7684\u5730\u5740\u4FE1\u606F\uFF09
+        server-addr: 127.0.0.1:8848
+      # nacos config \u914D\u7F6E
+      config:
+        server-addr: 127.0.0.1:8848
+        # \u9501\u5B9Aserver\u7AEF\u7684\u914D\u7F6E\u6587\u4EF6\uFF08\u8BFB\u53D6\u5B83\u7684\u914D\u7F6E\u9879\uFF09
+        group: DEFAULT_GROUP  # \u9ED8\u8BA4\u5206\u7EC4\u5C31\u662FDEFAULT_GROUP\uFF0C\u5982\u679C\u4F7F\u7528\u9ED8\u8BA4\u5206\u7EC4\u53EF\u4EE5\u4E0D\u914D\u7F6E
+        file-extension: yml   #\u9ED8\u8BA4properties
+        # \u6839\u636E\u89C4\u5219\u62FC\u63A5\u51FA\u6765\u7684dataId\u6548\u679C\uFF1Alagou-service-resume.yaml
+        ext-config[0]:
+          data-id: abc.yml
+          group: DEFAULT_GROUP
+          refresh: true  #\u5F00\u542F\u6269\u5C55dataId\u7684\u52A8\u6001\u5237\u65B0
+        ext-config[1]:
+          data-id: def.yml
+          group: DEFAULT_GROUP
+          refresh: true  #\u5F00\u542F\u6269\u5C55dataId\u7684\u52A8\u6001\u5237\u65B0
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
